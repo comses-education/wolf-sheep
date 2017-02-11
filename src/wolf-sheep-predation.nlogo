@@ -1,42 +1,42 @@
-globals [ grass max-sheep ]  ; keep track of how much grass there is
-; Sheep and wolves are both breeds of turtle.
-breed [ sheep a-sheep ]  ; sheep is its own plural, so we use "a-sheep" as the singular.
-breed [ wolves wolf ]
-turtles-own [ energy ]       ; both wolves and sheep have energy
-patches-own [ countdown ]
+globals [grass killx killy]  ;; keep track of how much grass there is
+;; Sheep and wolves are both breeds of turtle.
+breed [sheep a-sheep]  ;; sheep is its own plural, so we use "a-sheep" as the singular.
+breed [wolves wolf]
+turtles-own [energy]       ;; both wolves and sheep have energy
+patches-own [countdown]
 
 to setup
   clear-all
-  set max-sheep 100000
   ask patches [ set pcolor green ]
-  ; check GRASS? switch.
-  ; if it is true, then grass grows and the sheep eat it
-  ; if it false, then the sheep don't need to eat
+  ;; check GRASS? switch.
+  ;; if it is true, then grass grows and the sheep eat it
+  ;; if it false, then the sheep don't need to eat
   if grass? [
     ask patches [
-      set pcolor one-of [ green brown ]
+      set pcolor one-of [green brown]
       if-else pcolor = green
         [ set countdown grass-regrowth-time ]
-        [ set countdown random grass-regrowth-time ] ; initialize grass grow clocks randomly for brown patches
+        [ set countdown random grass-regrowth-time ] ;; initialize grass grow clocks randomly for brown patches
     ]
   ]
   set-default-shape sheep "sheep"
-  create-sheep initial-number-sheep  ; create the sheep, then initialize their variables
+  create-sheep initial-number-sheep  ;; create the sheep, then initialize their variables
   [
     set color white
-    set size 1.5  ; easier to see
+    set size 1.5  ;; easier to see
     set label-color blue - 2
     set energy random (2 * sheep-gain-from-food)
     setxy random-xcor random-ycor
   ]
   set-default-shape wolves "wolf"
-  create-wolves initial-number-wolves  ; create the wolves, then initialize their variables
+  create-wolves initial-number-wolves  ;; create the wolves, then initialize their variables
   [
     set color black
-    set size 2  ; easier to see
+    set size 2  ;; easier to see
     set energy random (2 * wolf-gain-from-food)
     setxy random-xcor random-ycor
   ]
+  set killx [] set killy []
   display-labels
   set grass count patches with [pcolor = green]
   reset-ticks
@@ -44,11 +44,13 @@ end
 
 to go
   if not any? turtles [ stop ]
-  if not any? wolves and count sheep > max-sheep [ user-message "The sheep have inherited the earth" stop ]
+  if reset_kills [
+    set killx []
+    set killy []]
   ask sheep [
     move
     if grass? [
-      set energy energy - 1  ; deduct energy for sheep only if grass? switch is on
+      set energy energy - 1  ;; deduct energy for sheep only if grass? switch is on
       eat-grass
     ]
     death
@@ -56,7 +58,7 @@ to go
   ]
   ask wolves [
     move
-    set energy energy - 1  ; wolves lose energy as they move
+    set energy energy - 1  ;; wolves lose energy as they move
     catch-sheep
     death
     reproduce-wolves
@@ -67,48 +69,48 @@ to go
   display-labels
 end
 
-to move  ; turtle procedure
+to move  ;; turtle procedure
   rt random 50
   lt random 50
   fd 1
 end
 
-to eat-grass  ; sheep procedure
-  ; sheep eat grass, turn the patch brown
+to eat-grass  ;; sheep procedure
+  ;; sheep eat grass, turn the patch brown
   if pcolor = green [
     set pcolor brown
-    set energy energy + sheep-gain-from-food  ; sheep gain energy by eating
+    set energy energy + sheep-gain-from-food  ;; sheep gain energy by eating
   ]
 end
 
-to reproduce-sheep  ; sheep procedure
-  if random-float 100 < sheep-reproduce [  ; throw "dice" to see if you will reproduce
-    set energy (energy / 2)                ; divide energy between parent and offspring
-    hatch 1 [ rt random-float 360 fd 1 ]   ; hatch an offspring and move it forward 1 step
+to reproduce-sheep  ;; sheep procedure
+  if random-float 100 < sheep-reproduce [  ;; throw "dice" to see if you will reproduce
+    set energy (energy / 2)                ;; divide energy between parent and offspring
+    hatch 1 [ rt random-float 360 fd 1 ]   ;; hatch an offspring and move it forward 1 step
   ]
 end
 
-to reproduce-wolves  ; wolf procedure
-  if random-float 100 < wolf-reproduce [  ; throw "dice" to see if you will reproduce
-    set energy (energy / 2)               ; divide energy between parent and offspring
-    hatch 1 [ rt random-float 360 fd 1 ]  ; hatch an offspring and move it forward 1 step
+to reproduce-wolves  ;; wolf procedure
+  if random-float 100 < wolf-reproduce [  ;; throw "dice" to see if you will reproduce
+    set energy (energy / 2)               ;; divide energy between parent and offspring
+    hatch 1 [ rt random-float 360 fd 1 ]  ;; hatch an offspring and move it forward 1 step
   ]
 end
 
-to catch-sheep  ; wolf procedure
-  let prey one-of sheep-here                    ; grab a random sheep
-  if prey != nobody                             ; did we get one?  if so,
-    [ ask prey [ die ]                          ; kill it
-      set energy energy + wolf-gain-from-food ] ; get energy from eating
+to catch-sheep  ;; wolf procedure
+  let prey one-of sheep-here                    ;; grab a random sheep
+  if prey != nobody                             ;; did we get one?  if so,
+    [ ask prey [ set killx lput xcor killx set killy lput ycor killy die ]  ;; kill it
+      set energy energy + wolf-gain-from-food ] ;; get energy from eating
 end
 
-to death  ; turtle procedure
-  ; when energy dips below zero, die
+to death  ;; turtle procedure
+  ;; when energy dips below zero, die
   if energy < 0 [ die ]
 end
 
-to grow-grass  ; patch procedure
-  ; countdown on brown patches: if reach 0, grow some grass
+to grow-grass  ;; patch procedure
+  ;; countdown on brown patches: if reach 0, grow some grass
   if pcolor = brown [
     ifelse countdown <= 0
       [ set pcolor green
@@ -165,7 +167,7 @@ initial-number-sheep
 initial-number-sheep
 0
 250
-100.0
+250.0
 1
 1
 NIL
@@ -180,7 +182,7 @@ sheep-gain-from-food
 sheep-gain-from-food
 0.0
 50.0
-4.0
+50.0
 1.0
 1
 NIL
@@ -195,7 +197,7 @@ sheep-reproduce
 sheep-reproduce
 1.0
 20.0
-4.0
+20.0
 1.0
 1
 %
@@ -210,7 +212,7 @@ initial-number-wolves
 initial-number-wolves
 0
 250
-50.0
+250.0
 1
 1
 NIL
@@ -225,7 +227,7 @@ wolf-gain-from-food
 wolf-gain-from-food
 0.0
 100.0
-20.0
+100.0
 1.0
 1
 NIL
@@ -240,7 +242,7 @@ wolf-reproduce
 wolf-reproduce
 0.0
 20.0
-5.0
+20.0
 1.0
 1
 %
@@ -253,7 +255,7 @@ SWITCH
 120
 grass?
 grass?
-1
+0
 1
 -1000
 
@@ -266,7 +268,7 @@ grass-regrowth-time
 grass-regrowth-time
 0
 100
-30.0
+100.0
 1
 1
 NIL
@@ -400,6 +402,17 @@ show-energy?
 1
 -1000
 
+SWITCH
+362
+485
+472
+518
+reset_kills
+reset_kills
+1
+1
+-1000
+
 @#$#@#$#@
 ## WHAT IS IT?
 
@@ -483,15 +496,12 @@ Wilensky, U. & Reisman, K. (1999). Connected Science: Learning Biology through C
 
 Wilensky, U. & Reisman, K. (2006). Thinking like a Wolf, a Sheep or a Firefly: Learning Biology through Constructing and Testing Computational Theories -- an Embodied Modeling Approach. Cognition & Instruction, 24(2), pp. 171-209. http://ccl.northwestern.edu/papers/wolfsheep.pdf
 
+
 ## HOW TO CITE
 
-If you mention this model or the NetLogo software in a publication, we ask that you include the citations below.
-
-For the model itself:
+If you mention this model in a publication, we ask that you include these citations for the model itself and for the NetLogo software:
 
 * Wilensky, U. (1997).  NetLogo Wolf Sheep Predation model.  http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation.  Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
-
-Please cite the NetLogo software as:
 
 * Wilensky, U. (1999). NetLogo. http://ccl.northwestern.edu/netlogo/. Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.
 
@@ -501,15 +511,13 @@ Copyright 1997 Uri Wilensky.
 
 ![CC BY-NC-SA 3.0](http://ccl.northwestern.edu/images/creativecommons/byncsa.png)
 
-This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License.  To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License.  To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.
 
 Commercial licenses are also available. To inquire about commercial licenses, please contact Uri Wilensky at uri@northwestern.edu.
 
 This model was created as part of the project: CONNECTED MATHEMATICS: MAKING SENSE OF COMPLEX PHENOMENA THROUGH BUILDING OBJECT-BASED PARALLEL MODELS (OBPML).  The project gratefully acknowledges the support of the National Science Foundation (Applications of Advanced Technologies Program) -- grant numbers RED #9552950 and REC #9632612.
 
 This model was converted to NetLogo as part of the projects: PARTICIPATORY SIMULATIONS: NETWORK-BASED DESIGN FOR SYSTEMS LEARNING IN CLASSROOMS and/or INTEGRATED SIMULATION AND MODELING ENVIRONMENT. The project gratefully acknowledges the support of the National Science Foundation (REPP & ROLE programs) -- grant numbers REC #9814682 and REC-0126227. Converted from StarLogoT to NetLogo, 2000.
-
-<!-- 1997 2000 -->
 @#$#@#$#@
 default
 true
@@ -816,13 +824,88 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.0
+NetLogo 6.0-BETA1
 @#$#@#$#@
-set grass? true
 setup
+set grass? true
 repeat 75 [ go ]
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="dynamic_predation" repetitions="1000" runMetricsEveryStep="true">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <metric>count sheep</metric>
+    <metric>count wolves</metric>
+    <metric>killx</metric>
+    <metric>killy</metric>
+    <enumeratedValueSet variable="show-energy?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wolf-reproduce">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wolf-gain-from-food">
+      <value value="20"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sheep-gain-from-food">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-number-sheep">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="grass-regrowth-time">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="grass?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-number-wolves">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sheep-reproduce">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="reset_kills">
+      <value value="true"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="static_predation" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="1000"/>
+    <exitCondition>count turtles &gt; 2000</exitCondition>
+    <metric>count sheep</metric>
+    <metric>count wolves</metric>
+    <metric>killx</metric>
+    <metric>killy</metric>
+    <metric>[energy] of sheep</metric>
+    <metric>[energy] of wolves</metric>
+    <enumeratedValueSet variable="show-energy?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wolf-reproduce">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="wolf-gain-from-food" first="0" step="10" last="100"/>
+    <steppedValueSet variable="sheep-gain-from-food" first="0" step="5" last="50"/>
+    <steppedValueSet variable="initial-number-sheep" first="0" step="25" last="250"/>
+    <enumeratedValueSet variable="grass-regrowth-time">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="grass?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="initial-number-wolves" first="0" step="25" last="250"/>
+    <enumeratedValueSet variable="sheep-reproduce">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="reset_kills">
+      <value value="false"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
