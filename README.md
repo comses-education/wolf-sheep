@@ -1,6 +1,6 @@
 # wolf-sheep
 
-Pull sample data from [Dropbox](https://www.dropbox.com/sh/ig5p5lfrn5icoba/AABxyQm5Agdt-MPHvF_9xh9Ka?dl=0). We exceeded our Git LFS quota from Miles's data runs.
+Sample data from Miles is available at https://dev.commons.asu.edu/data/abmclub/wolf-sheep - we exceeded our Git LFS quota.
 
 ~~Pull sample data by installing [Git LFS](https://git-lfs.github.com/) and running `git lfs pull` from the command-line or using  [Github Desktop](https://github.com/blog/2079-managing-large-files-with-git-lfs) or [SourceTree](https://www.atlassian.com/git/tutorials/git-lfs).~~
 
