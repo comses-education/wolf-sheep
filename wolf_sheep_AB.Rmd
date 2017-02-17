@@ -1,0 +1,192 @@
+---
+title: "wolf-sheep"
+author: "Andres Baeza and Felix John"
+date: "February 17, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Experiment 1
+ experiment setup:
+ 100 repetitions, 500 ticks
+ ["sheep-gain-from-food" [2 1 20]]
+ ["wolf-gain-from-food" [10 0.5 30]]
+
+##read the data from netlogo
+```{r}
+require(ggplot2)
+E1<-read.csv(file = "C:/Users/abaezaca/Downloads/WolfSheep_experiment1.csv",header = TRUE,skip = 6,comment.char ="#")
+names(E1)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
+                                   "energy_wolves", "energy_sheep")
+
+#read a source code for a function that plots multiple ggplots in one layer
+source("C:/Users/abaezaca/Documents/MEGADAPT/ABM_V2/multiplot_function.R")
+```
+
+## scatter plots
+here we plot the final population size of wolves (y-axis) vs. the level of energy they gain from sheeps (x axis).
+We repeat this plot procedure for three values of the energy sheeps gain from grass (4,5,6)
+```{r,fig.height=8,fig.width=18}
+P1=ggplot(subset(E1,sheep.gain.from.food == 4 & N_wolves >0),aes(x=wolf.gain.from.food,y=N_wolves))+
+  geom_point()+
+   labs(x = "Energy", y="#wolves")+
+theme(text = element_text(size=18))+
+    geom_smooth(span=1,method = "lm")
+P2=ggplot(subset(E1,sheep.gain.from.food == 5 & N_wolves >0),aes(x=wolf.gain.from.food,y=N_wolves))+
+  geom_point()+
+   labs(x = "Energy take from sheep", y="#wolves")+
+theme(text = element_text(size=18))+
+    geom_smooth(method = "lm", level=0.99)
+
+P3=ggplot(subset(E1,sheep.gain.from.food == 6& N_wolves >0),aes(x=wolf.gain.from.food,y=N_wolves))+
+  geom_point()+
+   labs(x = "Energy", y="#wolves")+
+theme(text = element_text(size=18))+
+    geom_smooth()
+
+multiplot(P1, P2,P3,cols=3)
+
+```
+
+## "heat maps"
+A raster is contructed by filling each pixel represent a combination of parameter values (x=energy wolves gain from sheeps; y= energey sheeps gain from grass) 
+The color of the pixel represents the final population of wolves (panel a) and sheeps (panel b) 
+
+```{r, fig.width=18,fig.height=8}
+P2=ggplot(E1,aes(x=wolf.gain.from.food, y=sheep.gain.from.food,fill=log(N_wolves)))+
+  geom_raster()+
+   labs(x = "Energy W", y="Energy S")+
+theme(text = element_text(size=18))+
+  scale_fill_gradient2(low='white', high='blue')
+
+
+P3=ggplot(E1,aes(x=wolf.gain.from.food, y=sheep.gain.from.food,fill=log(N_sheep)))+
+  geom_raster()+
+   labs(x = "Energy take from sheep", y="Energy take from grass")+
+theme(text = element_text(size=18))+
+  scale_fill_gradient2(low='white', high='blue')
+multiplot(P2,P3,cols=2)
+```
+
+
+
+
+##Frequency/density plots
+these plots display the frequency of simulations that generate a particualr population size 
+```{r}
+P1=ggplot(E1,aes(x=N_wolves))+
+  geom_density()+
+   labs(x = "# wolves", y="frequency",title="Including sims. with Wolves = 0")+
+theme(text = element_text(size=10))
+
+P2=ggplot(E1,aes(x=N_wolves))+
+  geom_density()+
+   labs(x = "# wolves (log scale)", y="frequency")+
+theme(text = element_text(size=10))+
+  scale_x_log10()+
+  ggtitle("Only sim with Wolves > 0")
+
+P3=ggplot(E1,aes(x=N_sheep))+
+  geom_density()+
+   labs(x = "# sheeps ", y="frequency",title="Including sims. with Wolves = 0")+
+theme(text = element_text(size=10))
+
+P4=ggplot(E1,aes(x=N_sheep))+
+  geom_density()+
+   labs(x = "# sheeps (log scale)", y="frequency")+
+theme(text = element_text(size=10))+
+  scale_x_log10()+
+  ggtitle("Only sims. with Wolves > 0")
+
+
+multiplot(P1, P2,P3,P4,cols=2)
+```
+
+
+
+# Experiment 2: Time series 
+
+## Experiment setup:
+
+* 10 repetitions, 500 ticks (stop when wolves go extinct)
+* "initial.number.wolves" [1 10 250]
+* "initial-number-sheep" [1 10 250]
+* variables are measured at every time step
+
+## Read in and reformat the data
+Read the data from the file and give the output variables more intuitive names:
+
+```{r}
+data.exp2 <- read.csv("C:/Users/abaezaca/Downloads/WolfSheep_experiment2.csv", skip = 6, header = T)
+
+names(data.exp2)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
+                                   "energy_wolves", "energy_sheep")
+```
+
+
+Calculate the means across the repitions:
+```{r}
+library(dplyr)
+means <- data.exp2 %>% 
+  arrange(time) %>% 
+  group_by(initial.number.sheep, initial.number.wolves, time) %>% 
+  summarise(N_wolves = mean(N_wolves),
+            N_sheep = mean(N_sheep),
+            grass = mean(grass)) %>% 
+  mutate(ID = paste("s", initial.number.sheep, "w", initial.number.wolves, sep = "_"))
+```
+
+The pipe operator (`%>%`) is part of the `dplyr` package and lets you connect different operations that are carried out sequentially. Moreover, it helps you keep your code tidy. 
+`group_by` and `summarise` first split up the dataset and then calculate some summary statistics. `mutate` is used to create a new variable (it can also overwrite existing variables). The ID is just needed for internal purposes in the graphs below (to tell R which values belong together)
+
+## Plot time series
+
+```{r}
+require(ggplot2)
+require(dplyr)
+init_sheep <- 241
+init_wolves <- 91
+means %>% 
+  filter(initial.number.sheep == init_sheep & initial.number.wolves == init_wolves) %>% 
+  ggplot(aes(x = time)) +
+  geom_line(aes(y = grass/4, colour = "grass (rescaled)")) +
+  geom_line(aes(y = N_wolves, colour = "# wolves")) +
+  geom_line(aes(y = N_sheep, colour = "# sheep")) +
+  labs(x = "time", y = "# individuals", colour = "Type of agent", title = "Development over time")
+```
+
+
+Here, we first select the initial conditions we want to use. Setting colour to a character value assigns a standard colour to the graph, but prints that character value in the legend.
+
+## Plot phase plane
+
+Plot all repetitions and their mean for one initial condition:
+
+```{r}
+library(ggplot2)
+init_sheep <- 101
+init_wolves <- 51
+data.exp2 %>% 
+  filter(initial.number.sheep == init_sheep & initial.number.wolves == init_wolves) %>% 
+  ggplot(aes(x = N_wolves, y = N_sheep)) +
+  geom_path(aes(colour = factor(runID)), show.legend = F) +
+  geom_path(data = filter(means, initial.number.sheep == init_sheep & initial.number.wolves == init_wolves),
+            aes(x = N_wolves, y = N_sheep), colour = "black") +
+  labs(x = "# wolves", y = "# sheep")
+```
+
+The coloured lines depict the individual runs, the black line depicts the mean.
+
+*Note:* `geom_path` connects the observations in the order in which they appear in the data. Therefore, you have to make sure that the data is ordered correctly. We did that with the `arrange` command in the previous code chunk.
+
+Plot the means of different initial conditions
+```{r}
+init_cond <- c(1, 41, 81, 121, 161, 201, 241)
+means %>% 
+  filter(initial.number.sheep %in% init_cond & initial.number.wolves %in% init_cond) %>% 
+  ggplot(aes(x = N_wolves, y = N_sheep)) +
+  geom_path(aes(group = factor(ID)))
+```
