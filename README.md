@@ -5,7 +5,7 @@ ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.n
 Sample data from @mmannin5, @felix-john, and Andres Baeza-Castro is available at https://dev.commons.asu.edu/data/abmclub/wolf-sheep 
 
 # Load into RStudio
-Install the [checkpoint](https://cran.r-project.org/web/packages/checkpoint/vignettes/checkpoint.html) package first to run the RMarkdown file.
+Install the [packrat](https://rstudio.github.io/packrat/walkthrough.html) package first to run the RMarkdown file.
 
 
 # References
