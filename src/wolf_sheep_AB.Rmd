@@ -6,6 +6,9 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
+require('checkpoint')
+checkpoint('2017-02-23')
+library(RCurl)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -18,7 +21,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ##read the data from netlogo
 ```{r}
 require(ggplot2)
-E1<-read.csv(url("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/dynamic.csv"), header = TRUE,skip = 6,comment.char ="#")
+dynamicCsv <- getURL("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/dynamic.csv")
+E1<-read.csv(textConnection(dynamicCsv), header = TRUE,skip = 6,comment.char ="#")
 names(E1)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
                                    "energy_wolves", "energy_sheep")
 
@@ -105,8 +109,6 @@ theme(text = element_text(size=10))+
 multiplot(P1, P2,P3,P4,cols=2)
 ```
 
-
-
 # Experiment 2: Time series 
 
 ## Experiment setup:
@@ -120,7 +122,8 @@ multiplot(P1, P2,P3,P4,cols=2)
 Read the data from the file and give the output variables more intuitive names:
 
 ```{r}
-data.exp2 <- read.csv(url("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/static.csv"), skip = 6, header = T)
+staticCsv <- getURL("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/static.csv")
+data.exp2 <- read.csv(textConnection(staticCsv), skip = 6, header = T)
 
 names(data.exp2)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
                                    "energy_wolves", "energy_sheep")
