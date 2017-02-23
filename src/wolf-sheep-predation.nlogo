@@ -134,10 +134,10 @@ end
 GRAPHICS-WINDOW
 350
 10
-817
-478
--1
--1
+819
+500
+25
+25
 9.0
 1
 14
@@ -167,7 +167,7 @@ initial-number-sheep
 initial-number-sheep
 0
 250
-250.0
+100
 1
 1
 NIL
@@ -182,7 +182,7 @@ sheep-gain-from-food
 sheep-gain-from-food
 0.0
 50.0
-50.0
+4
 1.0
 1
 NIL
@@ -197,7 +197,7 @@ sheep-reproduce
 sheep-reproduce
 1.0
 20.0
-20.0
+4
 1.0
 1
 %
@@ -212,7 +212,7 @@ initial-number-wolves
 initial-number-wolves
 0
 250
-250.0
+50
 1
 1
 NIL
@@ -227,7 +227,7 @@ wolf-gain-from-food
 wolf-gain-from-food
 0.0
 100.0
-100.0
+20
 1.0
 1
 NIL
@@ -242,7 +242,7 @@ wolf-reproduce
 wolf-reproduce
 0.0
 20.0
-20.0
+5
 1.0
 1
 %
@@ -268,7 +268,7 @@ grass-regrowth-time
 grass-regrowth-time
 0
 100
-100.0
+30
 1
 1
 NIL
@@ -823,8 +823,9 @@ false
 0
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
+
 @#$#@#$#@
-NetLogo 6.0-BETA1
+NetLogo 5.3.1
 @#$#@#$#@
 setup
 set grass? true
@@ -918,6 +919,7 @@ true
 0
 Line -7500403 true 150 150 90 180
 Line -7500403 true 150 150 210 180
+
 @#$#@#$#@
 0
 @#$#@#$#@
