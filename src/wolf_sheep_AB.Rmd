@@ -18,12 +18,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ##read the data from netlogo
 ```{r}
 require(ggplot2)
-E1<-read.csv(file = "C:/Users/abaezaca/Downloads/WolfSheep_experiment1.csv",header = TRUE,skip = 6,comment.char ="#")
+E1<-read.csv(url("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/dynamic.csv"), header = TRUE,skip = 6,comment.char ="#")
 names(E1)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
                                    "energy_wolves", "energy_sheep")
 
 #read a source code for a function that plots multiple ggplots in one layer
-source("C:/Users/abaezaca/Documents/MEGADAPT/ABM_V2/multiplot_function.R")
+source("multiplot_function.R")
 ```
 
 ## scatter plots
@@ -120,7 +120,7 @@ multiplot(P1, P2,P3,P4,cols=2)
 Read the data from the file and give the output variables more intuitive names:
 
 ```{r}
-data.exp2 <- read.csv("C:/Users/abaezaca/Downloads/WolfSheep_experiment2.csv", skip = 6, header = T)
+data.exp2 <- read.csv(url("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/static.csv"), skip = 6, header = T)
 
 names(data.exp2)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
                                    "energy_wolves", "energy_sheep")
