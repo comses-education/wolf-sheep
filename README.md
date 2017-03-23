@@ -4,13 +4,13 @@ ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.n
 # sample netlogo behaviorspace data
 Sample data from @mmannin5, @felix-john, and Andres Baeza-Castro is available at https://dev.commons.asu.edu/data/abmclub/wolf-sheep 
 
-# Running the Model
+# Reproducible R analysis workflow
 
-To run the model
-
-1. Open the project in the RStudio (`File > Open Project...` and select `wolf-sheep.Rproj`)
-2. Open `src/wolf_sheep_AB.Rmd`
-3. Run the `knit` command
+1. Clone this repository
+2. Open the `wolf-sheep.Rproj` project file in RStudio (`File > Open Project...` and select `wolf-sheep.Rproj`)
+3. The previous step will take some time as it will install packrat and all the dependencies needed by the RMarkdown document, probably 5-10 minutes.   
+4. Open `src/wolf_sheep_AB.Rmd`
+5. Run the `knit` command
 
    ![Location of Knit button on RStudio](images/knit.png "RStudio knit")
 
