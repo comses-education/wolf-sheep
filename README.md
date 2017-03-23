@@ -12,7 +12,7 @@ To run the model
 2. Open `src/wolf_sheep_AB.Rmd`
 3. Run the `knit` command
 
-   ![Location of Knit button on RStudio](https://github.com/comses/wolf-sheep/tree/master/images/knit.png "RStudio knit")
+   ![Location of Knit button on RStudio](images/knit.png "RStudio knit")
 
 
 # References
