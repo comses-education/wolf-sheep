@@ -21,6 +21,9 @@ Sample data from @mmannin5, @felix-john, and Andres Baeza-Castro is available at
 - [Packrat Documentation](https://rstudio.github.io/packrat/)
 - [Packrat Video Walthrough](https://www.rstudio.com/resources/webinars/managing-package-dependencies-in-r-with-packrat/)
 
+
+# Docker Build
+
 # References
 Wilensky, U. (1997). NetLogo Wolf Sheep Predation model. http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation.
 Center for Connected Learning and Computer-Based Modeling, Northwestern University, Evanston, IL.

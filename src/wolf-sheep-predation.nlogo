@@ -906,6 +906,40 @@ repeat 75 [ go ]
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
+  <experiment name="vary_food_gains" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="500"/>
+    <exitCondition>not any? turtles</exitCondition>
+    <metric>count wolves</metric>
+    <metric>count sheep</metric>
+    <metric>grass</metric>
+    <metric>ifelse-value (any? wolves) [mean [energy] of wolves] [0]</metric>
+    <metric>ifelse-value (any? sheep) [mean [energy] of sheep] [0]</metric>
+    <steppedValueSet variable="sheep-gain-from-food" first="2" step="1" last="20"/>
+    <steppedValueSet variable="wolf-gain-from-food" first="10" step="0.5" last="30"/>
+    <enumeratedValueSet variable="initial-number-sheep">
+      <value value="100"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="wolf-reproduce">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="show-energy?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="initial-number-wolves">
+      <value value="50"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="sheep-reproduce">
+      <value value="4"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="grass?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="grass-regrowth-time">
+      <value value="30"/>
+    </enumeratedValueSet>
+  </experiment>
 </experiments>
 @#$#@#$#@
 @#$#@#$#@

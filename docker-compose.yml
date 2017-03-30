@@ -1,0 +1,30 @@
+version: "3"
+services:
+  analysis:
+    build: 
+      context: .
+      dockerfile: rstudio/Dockerfile
+    volumes: 
+      - .:/home/rstudio/code
+      # Trick to keep packrat built in docker image
+      # http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
+      - /home/rstudio/code/packrat
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      #USER: root
+      #USERID: 0
+      #GROUPID: 0
+      #PASSWORD: rstudio
+      UMASK: "000"
+  netlogo:
+    build:
+      context: netlogo
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/data
+    environment:
+      PASSWORD: netlogo
+    ports:
+      - "127.0.0.1:6080:6080"
+

@@ -19,9 +19,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ##read the data from netlogo
 ```{r}
 require(ggplot2)
-dynamicCsv <- getURL("https://dev.commons.asu.edu/data/abmclub/wolf-sheep/dynamic.csv")
-E1<-read.csv(textConnection(dynamicCsv), header = TRUE,skip = 6,comment.char ="#")
-names(E1)[c(1, 12:17)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
+E1<-read.csv("../data/vary_food_gains.csv", header = TRUE,skip = 6,comment.char ="#")
+names(E1)[c(1, 11:16)] <- c("runID", "time", "N_wolves", "N_sheep", "grass", 
                                    "energy_wolves", "energy_sheep")
 
 #read a source code for a function that plots multiple ggplots in one layer
