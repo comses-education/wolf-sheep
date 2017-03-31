@@ -8,12 +8,19 @@ ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.n
 
 ## Run the workflow
 
-Running `./run.sh run` will run the whole pipeline, generating data with NetLogo and producing a report with that data.
+Executing`% ./run.sh run` on the command line (caveat: only tested on Linux and Mac, it *may* run on Windows 10 bash) will execute the entire pipeline which currently consists of (1) a NetLogo behavior space experiment that generates a single CSV file, and (2) a RMarkdown file that loads the generated CSV file and generates a RMarkdown HTML report. 
+
+The NetLogo data can be found at `data/vary_food_gains.csv` and the resulting RMarkdown report will be produced at `results/wolf_sheep_AB.html`, relative to the root directory. 
 
 ## Interact with the workflow
 
 1. Run `./run.sh interact`
-2. Go to `localhost:6080/vnc.html` for the NetLogo container and `localhost:8787` for the RStudio container (in the web browser).
+2. NetLogo GUI available at `localhost:6080/vnc.html` 
+3. RStudio GUI available at `localhost:8787`
+
+### Interact with NetLogo
+
+At `localhost:6080/vnc.html` login with the password `netlogo`. The NetLogo application is located `/netlogo` so open the file explorer and go there to open NetLogo. The root project directory is mounted at `/code` so the NetLogo model used to generate this model is at `/code/src/wolf-sheep-predation.nlogo`. Open `/code/src/wolf-sheep-predation.nlogo` in NetLogo to view the model. The Behaviour Space settings used the `vary_food_gains` experiment. Parameters for the experiment can be seen by going into *Tools > BehaviourSpace* and opening `vary_food_gains`
 
 ### Interact with RStudio
 
@@ -25,13 +32,9 @@ At `localhost:8787` login as rstudio with a password of RStudio. The root projec
 
    ![Location of Knit button on RStudio](images/knit.png "RStudio knit")
 
-### Interact with NetLogo
-
-At `localhost:6080/vnc.html` login with the password `netlogo`. The NetLogo application is located `/netlogo` so open the file explorer and go there to open NetLogo. The root project directory is mounted at `/code` so the NetLogo model used to generate this model is at `/code/src/wolf-sheep-predation.nlogo`. Open `/code/src/wolf-sheep-predation.nlogo` in NetLogo to view the model. The Behaviour Space settings used the `vary_food_gains` experiment. Parameters for the experiment can be seen by going into *Tools > BehaviourSpace* and opening `vary_food_gains`
-
 # Notes
 
-This workflow works because the output generated from NetLogo is accessible to R. This example uses the hard coded data set name `vary_food_gains.csv` but workflows should use have a way of defining a data set name in one place referencing it everywhere so that data set name changing do not require manually editing multiple files.
+This workflow has hard coded the output file generated from NetLogo into a path made accessible to the RMarkdown container. This example uses the hard coded data set name `vary_food_gains.csv`. A more robust workflow would define this type of data in a single place and referencing it in dependent computations so that changing the filename of a dataset does not require manually editing multiple files.
 
 # Packrat Resources
 
