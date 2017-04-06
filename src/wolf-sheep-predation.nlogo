@@ -906,7 +906,7 @@ repeat 75 [ go ]
       <value value="false"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="vary_food_gains" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="vary_food_gains" repetitions="2" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="500"/>
