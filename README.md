@@ -3,8 +3,11 @@ ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.n
 
 ## Preparation
 
-1. Clone this repository
-2. Build the Docker images by running `./run.sh build` on the command line in the root of the project. Alternatively, images can be downloaded from DockerHub (`docker pull comses/resbaz-analysis:3.3.3` and `docker pull comses/resbaz-netlogo:5.3.1`)
+Software Requirements: `docker` and `bash` (so old versions of Windows will not work without cygwin or creating `run.sh` in a different language)
+
+1. Install [docker](https://www.docker.com/)
+2. Clone this repository
+3. Build the Docker images by running `./run.sh build` on the command line in the root of the project. Alternatively, images can be downloaded from DockerHub (`docker pull comses/resbaz-analysis:3.3.3` and `docker pull comses/resbaz-netlogo:5.3.1`)
 
 ## Run the workflow
 
