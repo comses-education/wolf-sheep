@@ -3,7 +3,7 @@ ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.n
 
 ## Preparation
 
-Software Requirements: `docker` and `bash` (so old versions of Windows will not work without cygwin or creating `run.sh` in a different language)
+Software Requirements: `docker` and `bash` (That means old versions of Windows (< 10) definitely will not work without cygwin or creating `run.sh` in a different language. Linux and Mac will work fine).
 
 1. Install [docker](https://www.docker.com/)
 2. Clone this repository
