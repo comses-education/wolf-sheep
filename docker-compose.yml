@@ -3,6 +3,7 @@ services:
   analysis:
     build: 
       context: .
+      image: comses/wolf-sheep-analysis
       dockerfile: rstudio/Dockerfile
     volumes: 
       - .:/home/rstudio/code
@@ -20,6 +21,7 @@ services:
   netlogo:
     build:
       context: netlogo
+      image: comses/wolf-sheep-netlogo
       dockerfile: Dockerfile
     volumes:
       - ./data:/data
