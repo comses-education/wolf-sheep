@@ -9,15 +9,18 @@ analysis_volumes="-v `pwd`:/home/rstudio/code -v /home/rstudio/code/packrat"
 if [ "$1" == "build" ]; then
 	docker build netlogo --tag comses/resbaz-netlogo:5.3.1
 	docker build . -f rstudio/Dockerfile --tag comses/resbaz-analysis:3.3.3
+elif [ "$1" == "pull" ]; then
+    docker pull comses/resbaz-netlogo:5.3.1 
+    docker pull comses/resbaz-analysis:3.3.3
 elif [ "$1" == "run" ]; then
 	netlogo_command=$(cat <<-END
 		/netlogo/app/netlogo-headless.sh \
 			--model /code/src/wolf-sheep-predation.nlogo \
 			--experiment vary_food_gains \
 			--table /code/data/vary_food_gains.csv
-		END)
+END
+)
 	analysis_command='R -e "rmarkdown::render(\"src/wolf_sheep_AB.Rmd\", output_file=\"../results/wolf_sheep_AB.html\")"' 
-
 	printf "Running Analysis Pipeline...\n"
 	if [ ! -f "data/vary_food_gains.csv" ]; then
 		echo Generating NetLogo data
