@@ -15,5 +15,6 @@ run: results/wolf_sheep_AB.html
 
 .PHONY: interact
 interact:
+	xhost +local:docker
 	docker-compose up -d
 	sensible-browser localhost:8787
