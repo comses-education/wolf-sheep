@@ -10,6 +10,8 @@ RUN mkdir /netlogo \
   && tar xf netlogo.tgz -C /netlogo --strip-components=1 \
   && rm netlogo.tgz
 
+COPY netlogo.sh /netlogo
+
 # Final build
 FROM phusion/baseimage:0.11
 
@@ -37,4 +39,4 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 COPY --from=netlogo_download /netlogo /netlogo
 
-CMD ["/netlogo/NetLogo"]
+CMD ["/netlogo/netlogo.sh", "--model", "/code/src/wolf-sheep-predation.nlogo"]

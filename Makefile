@@ -18,3 +18,7 @@ interact:
 	xhost +local:docker
 	docker-compose up -d
 	sensible-browser localhost:8787
+
+.DEFAULT: all
+.PHONY: all
+all: build run
