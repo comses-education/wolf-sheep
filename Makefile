@@ -6,9 +6,11 @@ NLOGO_MODEL=src/wolf-sheep-predation.nlogo
 NLOGO_DATA=data/vary_food_gains.csv
 SH_BEHAVIOUR_SPACE=src/run-wolf-sheep-predation-behaviourspace.sh
 
-.PHONY: build
+# Note: using the empty target pattern to prevent rebuilding unecessarily
+# https://www.gnu.org/software/make/manual/make.html#Empty-Targets
 build: docker-compose.yml netlogo/* rstudio/* .Rprofile wolf-sheep.Rproj
 	docker-compose build
+	touch build
 
 $(HTML_REPORT): $(RMD_REPORT) $(NLOGO_DATA) build
 	echo "Producing report"
