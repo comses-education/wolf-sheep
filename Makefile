@@ -29,3 +29,7 @@ interact:
 	xhost +local:docker
 	docker-compose up -d
 	sensible-browser localhost:8787
+
+.PHONY: clean
+clean:
+	rm $(HTML_REPORT) $(NLOGO_DATA) build
