@@ -1,9 +1,9 @@
 version: "3"
 services:
   analysis:
+    image: comses/wolf-sheep-analysis
     build: 
       context: .
-      image: comses/wolf-sheep-analysis
       dockerfile: rstudio/Dockerfile
     volumes: 
       - .:/home/rstudio/code
@@ -19,14 +19,12 @@ services:
       #PASSWORD: rstudio
       UMASK: "000"
   netlogo:
+    image: comses/wolf-sheep-netlogo
     build:
       context: netlogo
-      image: comses/wolf-sheep-netlogo
       dockerfile: Dockerfile
-    volumes:
-      - ./data:/data
     environment:
-      PASSWORD: netlogo
-    ports:
-      - "127.0.0.1:6080:6080"
-
+      DISPLAY: unix${DISPLAY}
+    volumes:
+      - .:/code
+      - /tmp/.X11-unix:/tmp/.X11-unix

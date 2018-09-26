@@ -3,7 +3,7 @@ ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.n
 
 ## Preparation
 
-Software Requirements: `docker` and `bash` (That means old versions of Windows (< 10) definitely will not work without cygwin or creating `run.sh` in a different language. Linux and Mac will work fine).
+Software Requirements: `docker`, `make` and `bash` (That means old versions of Windows (< 10) definitely will not work without cygwin or creating `run.sh` in a different language. Linux and Mac will work fine).
 
 1. Install [docker](https://www.docker.com/)
 2. Clone this repository
@@ -17,17 +17,18 @@ The NetLogo data can be found at `data/vary_food_gains.csv` and the resulting RM
 
 ## Interact with the workflow
 
-1. Run `./run.sh interact`
-2. NetLogo GUI available at `localhost:6080/vnc.html` 
+1. Run `make interact`
+2. NetLogo GUI should have popped up on your desktop
+  - If it hasn't check the logs (`docker-compose logs -f netlogo`). If there is an error about not being able to connect to the X11 server window you need to give docker permission to talk to the X11 socket. This can be done with `xhost +local:docker`.
 3. RStudio GUI available at `localhost:8787`
 
 ### Interact with NetLogo
 
-At `localhost:6080/vnc.html` login with the password `netlogo`. The NetLogo application is located `/netlogo` so open the file explorer and go there to open NetLogo. The root project directory is mounted at `/code` so the NetLogo model used to generate this model is at `/code/src/wolf-sheep-predation.nlogo`. Open `/code/src/wolf-sheep-predation.nlogo` in NetLogo to view the model. The Behaviour Space settings used the `vary_food_gains` experiment. Parameters for the experiment can be seen by going into *Tools > BehaviourSpace* and opening `vary_food_gains`
+The root project directory is mounted at `/code` so the NetLogo model used to generate this model is at `/code/src/wolf-sheep-predation.nlogo`. Open `/code/src/wolf-sheep-predation.nlogo` in NetLogo to view the model. The Behaviour Space settings used the `vary_food_gains` experiment. Parameters for the experiment can be seen by going into *Tools > BehaviourSpace* and opening `vary_food_gains`
 
 ### Interact with RStudio
 
-At `localhost:8787` login as rstudio with a password of RStudio. The root project directory (the directory this is in) is mounted into RStudio at `/home/rstudio/code`. It should be visible in the explorer pane in RStudio.
+At `localhost:8787` login as rstudio with a password of rstudio. The root project directory (the directory this is in) is mounted into RStudio at `/home/rstudio/code`. It should be visible in the explorer pane in RStudio.
 
 1. Open the `wolf-sheep.Rproj` project file in RStudio (`File > Open Project...` and select `wolf-sheep.Rproj` it will at the path `/home/rstudio/code/wolf-sheep.Rproj`). This will load the Packrat repository used for this project.
 2. Open `src/wolf_sheep_AB.Rmd`
