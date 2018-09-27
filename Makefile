@@ -5,14 +5,15 @@ RMD_REPORT=src/wolf_sheep_AB.Rmd
 NLOGO_MODEL=src/wolf-sheep-predation.nlogo
 NLOGO_DATA=data/vary_food_gains.csv
 SH_BEHAVIOUR_SPACE=src/run-wolf-sheep-predation-behaviourspace.sh
+BUILD=.build
 
 # Note: using the empty target pattern to prevent rebuilding unecessarily
 # https://www.gnu.org/software/make/manual/make.html#Empty-Targets
-build: docker-compose.yml netlogo/* rstudio/* .Rprofile wolf-sheep.Rproj
+$(BUILD): docker-compose.yml netlogo/* rstudio/* .Rprofile wolf-sheep.Rproj
 	docker-compose build
-	touch build
+	touch $(BUILD)
 
-$(HTML_REPORT): $(RMD_REPORT) $(NLOGO_DATA) build
+$(HTML_REPORT): $(RMD_REPORT) $(NLOGO_DATA) $(BUILD)
 	echo "Producing report"
 	docker-compose run --rm --user ${USER_ID}:${USER_ID} analysis R -e "rmarkdown::render(\"$(RMD_REPORT)\", output_file=\"../$(HTML_REPORT)\")"
 
@@ -32,4 +33,4 @@ interact:
 
 .PHONY: clean
 clean:
-	rm $(HTML_REPORT) $(NLOGO_DATA) build
+	rm $(HTML_REPORT) $(NLOGO_DATA) $(BUILD)
