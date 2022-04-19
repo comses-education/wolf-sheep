@@ -5,7 +5,7 @@ RMD_REPORT=src/wolf_sheep_AB.Rmd
 NLOGO_MODEL=src/wolf-sheep-predation.nlogo
 NLOGO_DATA=data/vary_food_gains.csv
 SH_BEHAVIOUR_SPACE=src/run-wolf-sheep-predation-behaviourspace.sh
-BUILD=.build
+BUILD=build
 
 # Note: using the empty target pattern to prevent rebuilding unecessarily
 # https://www.gnu.org/software/make/manual/make.html#Empty-Targets

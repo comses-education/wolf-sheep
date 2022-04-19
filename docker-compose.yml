@@ -1,4 +1,3 @@
-version: "3"
 services:
   analysis:
     image: comses/wolf-sheep-analysis
