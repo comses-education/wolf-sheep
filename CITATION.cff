@@ -1,0 +1,33 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: NetLogo Wolf Sheep Analysis
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Andres
+    family-names: Baeza-Castro
+  - given-names: Felix
+    family-names: John
+  - given-names: Allen
+    family-names: Lee
+  - given-names: Miles
+    family-names: Manning
+  - given-names: Calvin
+    orcid: 'https://orcid.org/0000-0002-4557-8602'
+    family-names: Pritchard
+identifiers:
+  - type: url
+    value: 'https://github.com/comses-education/wolf-sheep'
+    description: GitHub Repository
+url: >-
+  http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation
+abstract: >-
+  An adapted version of the wolf sheep predation
+  model bundled with NetLogo with additional kill
+  tracking and R analysis pipeline that results in a
+  RMarkdown report.
+license: GPL-3.0-or-later
