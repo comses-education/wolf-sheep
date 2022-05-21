@@ -1,4 +1,6 @@
 # wolf-sheep
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu) [![Docker Image CI](https://github.com/comses-education/wolf-sheep/actions/workflows/docker-image.yml/badge.svg)](https://github.com/comses-education/wolf-sheep/actions/workflows/docker-image.yml)
+
 ASU ABM club adaptation of the [NetLogo wolf sheep predation model](http://ccl.northwestern.edu/netlogo/models/WolfSheepPredation) with added kill tracking from @mmannin5
 
 ## Preparation
