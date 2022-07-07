@@ -1,0 +1,45 @@
+# CoMSES Open Science Grid submit template
+#
+universe = vanilla
+
+# Job requirements - make sure we're running on a Singularity enabled node with enough resources to execute our code
+Requirements = HAS_SINGULARITY == True && OSG_HOST_KERNEL_VERSION >= 31000
+request_cpus = 1
+request_memory = 1 GB
+request_disk = 25 GB
+
+# Specify the singularity container environment that the executable declared below should be run on in OSG. By default
+# Looks for a singularity image in /public/${OSG_USERNAME}
+# depends on: `make deploy`
++SingularityImage = "stash:///osgconnect/public/${OSG_USERNAME}/${SINGULARITY_IMAGE_NAME}"
+
+# Executable shell script wrapper that prints out basic system info and runs the specified Julia entrypoint script
+# pass in the full path or relative path Julia entrypoint as an argument (relative to the pwd of the singularity
+# container)
+Executable = job-wrapper.sh
+Arguments = /srv/${ENTRYPOINT_SCRIPT}
+
+# Inputs/outputs - in this case all model code is in the container at /code but the particular script we want to run
+# should be in a scripts directory relative to this submit script e.g., ./scripts/${OSG_MODEL_NAME}/
+# If you leave out transfer_output_files, all generated files comes back
+transfer_input_files = ${ENTRYPOINT_SCRIPT}
+transfer_output_files = ${OUTPUT_FILES}
+
+# Error and output are the error and output channels from your job
+# that HTCondor returns from the remote host.
+Error = $(Cluster).$(Process).error
+Output = $(Cluster).$(Process).output
+
+# The LOG file is where HTCondor places information about your
+# job's status, success, and resource consumption.
+Log = $(Cluster).log
+
+# Send the job to Held state on failure. 
+#on_exit_hold = (ExitBySignal == True) || (ExitCode != 0)
+
+# Periodically retry the jobs every 1 hour, up to a maximum of 5 retries.
+#periodic_release =  (NumJobStarts < 5) && ((CurrentTime - EnteredCurrentStatus) > 60*60)
+
+# queue is the "start button" - it launches any jobs that have been
+# specified thus far.
+queue 1
