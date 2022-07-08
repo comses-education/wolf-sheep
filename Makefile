@@ -10,7 +10,7 @@ BUILD=build
 # user to connect to OSG as
 OSG_USERNAME := ${USER}
 # name of this computational model
-OSG_MODEL_NAME := wolf-sheep
+MODEL_NAME := wolf-sheep
 # the directory (in the container) where the computational model source
 # code or executable can be called, e.g., main.py | netlogo-headless.sh
 MODEL_CODE_DIRECTORY := /code
@@ -23,13 +23,13 @@ OSG_OUTPUT_FILES := results.zip
 # OSG submit template
 OSG_SUBMIT_TEMPLATE := scripts/submit.template
 # the submit file to be executed on OSG via `condor_submit ${OSG_SUBMIT_FILE}`
-OSG_SUBMIT_FILENAME := scripts/${OSG_MODEL_NAME}.submit
+OSG_SUBMIT_FILENAME := scripts/${MODEL_NAME}.submit
 # the initial entrypoint for the OSG job, calls ENTRYPOINT_SCRIPT
 OSG_JOB_SCRIPT := job-wrapper.sh
 
 SINGULARITY_DEF := Singularity.def
 CURRENT_VERSION := v1
-SINGULARITY_IMAGE_NAME = ${OSG_MODEL_NAME}-${CURRENT_VERSION}.sif
+SINGULARITY_IMAGE_NAME = ${MODEL_NAME}-${CURRENT_VERSION}.sif
 
 
 # Note: using the empty target pattern to prevent rebuilding unecessarily
