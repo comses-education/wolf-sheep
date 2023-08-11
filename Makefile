@@ -27,7 +27,7 @@ OSG_SUBMIT_FILENAME := scripts/${MODEL_NAME}.submit
 # the initial entrypoint for the OSG job, calls ENTRYPOINT_SCRIPT
 OSG_JOB_SCRIPT := job-wrapper.sh
 
-SINGULARITY_DEF := Singularity.def
+SINGULARITY_DEF := container.def
 CURRENT_VERSION := v1
 SINGULARITY_IMAGE_NAME = ${MODEL_NAME}-${CURRENT_VERSION}.sif
 
