@@ -1,4 +1,4 @@
-FROM comses/netlogo:6.2.2
+FROM comses/netlogo:6.3.0
 
 ENV DISPLAY :0
 
