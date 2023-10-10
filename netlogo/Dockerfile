@@ -7,7 +7,7 @@ RUN apt-get update \
       bash \	
       gconf2 \
       gconf-service \
-      gvfs-bin \
+      gvfs \
       libasound2 \
       libcap2 \
       libgconf-2-4 \
